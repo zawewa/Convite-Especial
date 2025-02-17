@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Especial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            text-align: center;
+            position: relative;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .emoji {
+            font-size: 2rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .selected {
+            border: 2px solid #007BFF;
+            border-radius: 10px;
+            padding: 5px;
+        }
+        .party-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall 2s linear;
+        }
+        @keyframes fall {
+            from {
+                transform: translateY(-50px);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(500px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div id="step1">
+            <p>Digite seu nome:</p>
+            <input type="text" id="nameInput">
+            <button onclick="nextStep()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        let userName = "";
+        let selectedFood = "";
+
+        function nextStep() {
+            userName = document.getElementById('nameInput').value.trim();
+            if (userName === "") return;
+            document.getElementById('app').innerHTML = `
+                <p>Clique no seu favorito:</p>
+                <div>
+                    <span class="emoji" onclick="selectFood('sushi', this)">🍣</span>
+                    <span class="emoji" onclick="selectFood('macarrao', this)">🍝</span>
+                    <span class="emoji" onclick="selectFood('mexicano', this)">🌮</span>
+                    <span class="emoji" onclick="selectFood('hamburguer', this)">🍔</span>
+                    <span class="emoji" onclick="selectFood('pizza', this)">🍕</span>
+                </div>
+                <button onclick="confirmFood()">Continuar</button>
+            `;
+        }
+
+        function selectFood(food, element) {
+            selectedFood = food;
+            document.querySelectorAll('.emoji').forEach(e => e.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function confirmFood() {
+            if (selectedFood === "") return;
+            document.getElementById('app').innerHTML = `
+                <p>Quantos anos estamos fazendo?</p>
+                ${[1, 2, 3, 4, 5, 6].map(num => `<button onclick="checkYears(${num})">${num}</button>`).join('')}
+            `;
+        }
+
+        function checkYears(year) {
+            if (year === 4) {
+                finalStep();
+            } else {
+                document.getElementById('app').innerHTML = `
+                    <p>Tá de sacanagem?</p>
+                    <button onclick="nothingHappens()">Não</button>
+                    <button onclick="finalStep()">Sim</button>
+                `;
+            }
+        }
+
+        function nothingHappens() {
+            alert("Pensa de novo! 😆");
+        }
+
+        function finalStep() {
+            const places = {
+                sushi: "Sushi Haus",
+                pizza: "Mortadella",
+                hamburguer: "Pepper Jack",
+                macarrao: "Mortadella",
+                mexicano: "Rosa Mexicano"
+            };
+            document.getElementById('app').innerHTML = `
+                <p>Olá, ${userName}, você está convidada para nosso date de 4 anos.</p>
+                <p>📅 Data: 04/03/2025</p>
+                <p>⏰ Horário: 19h00</p>
+                <p>📍 Lugar: ${places[selectedFood]}</p>
+                <button onclick="celebrate()">Comemorar</button>
+                <button onclick="confirmPresence()">Confirmar Presença</button>
+            `;
+        }
+
+        function celebrate() {
+            for (let i = 0; i < 20; i++) {
+                let emoji = document.createElement('div');
+                emoji.className = 'party-emoji';
+                emoji.innerHTML = '🎉';
+                emoji.style.left = Math.random() * window.innerWidth + 'px';
+                emoji.style.top = Math.random() * 50 + 'px';
+                document.body.appendChild(emoji);
+                setTimeout(() => emoji.remove(), 2000);
+            }
+        }
+
+        function confirmPresence() {
+            window.open("https://api.whatsapp.com/send?phone=5547991978745&text=Oi%20gato,%20confirmo%20minha%20presen%C3%A7a%20na%20ter%C3%A7a-feira%20dia%2004/03%20pro%20nosso%20datezinho.%20Te%20amo!%0A%0A", "_blank");
+        }
+    </script>
+</body>
+</html>
