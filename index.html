@@ -12,7 +12,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f9f9f9;
+            background-color: #ffdce5;
             text-align: center;
             position: relative;
         }
@@ -61,6 +61,20 @@
             to {
                 transform: translateY(500px);
                 opacity: 0;
+            }
+        }
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: red;
+            animation: moveSide 3s infinite alternate ease-in-out;
+        }
+        @keyframes moveSide {
+            from {
+                transform: translateX(-50px);
+            }
+            to {
+                transform: translateX(50px);
             }
         }
     </style>
@@ -162,6 +176,18 @@
         function restart() {
             location.reload();
         }
+
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(heart);
+            }
+        }
+        createHearts();
     </script>
 </body>
 </html>
