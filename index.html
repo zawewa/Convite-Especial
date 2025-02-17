@@ -102,6 +102,10 @@
 
         function confirmFood() {
             if (selectedFood === "") return;
+            showYearSelection();
+        }
+
+        function showYearSelection() {
             document.getElementById('app').innerHTML = `
                 <p>Quantos anos estamos fazendo?</p>
                 ${[1, 2, 3, 4, 5, 6].map(num => `<button onclick="checkYears(${num})">${num}</button>`).join('')}
@@ -114,14 +118,10 @@
             } else {
                 document.getElementById('app').innerHTML = `
                     <p>Tá de sacanagem?</p>
-                    <button onclick="nothingHappens()">Não</button>
-                    <button onclick="finalStep()">Sim</button>
+                    <button onclick="showYearSelection()">Não</button>
+                    <button onclick="showYearSelection()">Sim</button>
                 `;
             }
-        }
-
-        function nothingHappens() {
-            alert("Pensa de novo! 😆");
         }
 
         function finalStep() {
@@ -139,6 +139,7 @@
                 <p>📍 Lugar: ${places[selectedFood]}</p>
                 <button onclick="celebrate()">Comemorar</button>
                 <button onclick="confirmPresence()">Confirmar Presença</button>
+                <button onclick="restart()">Recomeçar</button>
             `;
         }
 
@@ -156,6 +157,10 @@
 
         function confirmPresence() {
             window.open("https://api.whatsapp.com/send?phone=5547991978745&text=Oi%20gato,%20confirmo%20minha%20presen%C3%A7a%20na%20ter%C3%A7a-feira%20dia%2004/03%20pro%20nosso%20datezinho.%20Te%20amo!%0A%0A", "_blank");
+        }
+
+        function restart() {
+            location.reload();
         }
     </script>
 </body>
